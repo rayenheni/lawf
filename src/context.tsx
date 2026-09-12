@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { content, LANGS, type Lang } from "./content";
 
 type Ctx = {
@@ -18,8 +10,21 @@ type Ctx = {
 
 export const LangContext = createContext<Ctx | null>(null);
 
-export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("fr");
+export const DEFAULT_LANG: Lang = "fr";
+
+/**
+ * The locale a page was pre-rendered in, read back from `<html lang>`.
+ * This keeps the hydration render byte-identical to the server render, so the
+ * language switcher can never cause a React hydration mismatch.
+ */
+export function detectLang(): Lang {
+  if (typeof document === "undefined") return DEFAULT_LANG;
+  const code = document.documentElement.lang?.split("-")[0] as Lang | undefined;
+  return code && LANGS.some((l) => l.code === code) ? code : DEFAULT_LANG;
+}
+
+export function LangProvider({ children, initialLang }: { children: ReactNode; initialLang?: Lang }) {
+  const [lang, setLang] = useState<Lang>(initialLang ?? detectLang);
   const dir = LANGS.find((l) => l.code === lang)?.dir ?? "ltr";
 
   useEffect(() => {

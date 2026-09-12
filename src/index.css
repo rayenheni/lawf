@@ -6,6 +6,22 @@
   --font-arabic: "IBM Plex Sans Arabic", "Cairo", ui-sans-serif, sans-serif;
   --font-arabic-display: "Noto Naskh Arabic", "IBM Plex Sans Arabic", serif;
 
+  /*
+   * Type scale — a tokenised replacement for the previous scatter of ~23
+   * arbitrary `text-[…]` values. The floor is 11px: the audience for a law
+   * firm skews older, and 9px uppercase was below any readable minimum.
+   */
+  --text-micro: 0.6875rem; /* 11px — monogram meta, photo captions */
+  --text-micro--line-height: 1.5;
+  --text-label: 0.75rem; /* 12px — uppercase labels, nav, eyebrows */
+  --text-label--line-height: 1.6;
+  --text-caption: 0.8125rem; /* 13px — secondary copy */
+  --text-caption--line-height: 1.65;
+  --text-body-sm: 0.9375rem; /* 15px — dense body copy */
+  --text-body-sm--line-height: 1.7;
+  --text-body: 1rem; /* 16px — reading body */
+  --text-body--line-height: 1.7;
+
   /* deep navy — institutional */
   --color-navy-950: #071120;
   --color-navy-900: #0b1a2e;
@@ -23,7 +39,6 @@
   --color-brass-300: #ded0a4;
 
   /* paper */
-  --color-paper: #ffffff;
   --color-ivory-50: #fbfaf8;
   --color-ivory-100: #f5f3ef;
   --color-ivory-200: #ece8e1;
@@ -50,6 +65,11 @@
   [dir="rtl"] .font-display {
     font-family: var(--font-arabic-display);
     letter-spacing: 0 !important;
+  }
+  /* Letter-spacing designed for Latin capitals damages Arabic letter joining. */
+  [dir="rtl"] .label,
+  [dir="rtl"] .link-underline {
+    letter-spacing: 0;
   }
   ::selection {
     background: var(--color-navy-900);
@@ -91,20 +111,23 @@
   background: #8a6c30;
 }
 
-/* ---------- restrained scroll reveal ---------- */
-.reveal {
+/* ---------- restrained scroll reveal ----------
+   Scoped under `html.js` (set by an inline script in index.html before first
+   paint) so that pre-rendered markup and any no-JavaScript visitor — including
+   crawlers — always see fully visible content. */
+.js .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
@@ -116,7 +139,7 @@
 
 /* ---------- typographic helpers ---------- */
 .label {
-  font-size: 0.66rem;
+  font-size: var(--text-label);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   font-weight: 500;

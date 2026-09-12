@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLang } from "../context";
 import { cn } from "../utils/cn";
 import { CheckIcon, PlusIcon } from "../components/icons";
-import { Label, Reveal, SectionIntro } from "../components/ui";
+import { Label, Reveal, SectionIntro, Disclosure } from "../components/ui";
 
 export function Expertise() {
   const { t } = useLang();
@@ -20,7 +20,7 @@ export function Expertise() {
               lead={t.expertise.lead}
             />
             <Reveal delay={160}>
-              <p className="mt-8 border-l-2 border-brass-500/70 pl-4 text-[0.78rem] leading-relaxed text-navy-500">
+              <p className="mt-8 border-l-2 border-brass-500/70 pl-4 text-caption leading-relaxed text-navy-500">
                 {t.expertise.note}
               </p>
             </Reveal>
@@ -31,68 +31,60 @@ export function Expertise() {
               const isOpen = open === i;
               return (
                 <Reveal key={item.title} delay={i * 50}>
-                  <div className="border-b border-navy-900/12">
-                    <button
-                      onClick={() => setOpen(isOpen ? -1 : i)}
-                      className="flex w-full items-start gap-5 py-6 text-left rtl:text-right"
-                    >
-                      <span className="w-8 shrink-0 pt-1 font-display text-[0.8rem] text-brass-600">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="flex-1">
-                        <span
-                          className={cn(
-                            "block font-display text-[1.15rem] leading-snug transition-colors duration-300 sm:text-[1.3rem]",
-                            isOpen ? "text-brass-700" : "text-navy-900"
-                          )}
-                        >
-                          {item.title}
+                  <Disclosure
+                    id={`expertise-${i}`}
+                    open={isOpen}
+                    onToggle={() => setOpen(isOpen ? -1 : i)}
+                    buttonClassName="py-6"
+                    button={
+                      <>
+                        <span className="w-8 shrink-0 pt-1 font-display text-caption text-brass-700">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="flex-1">
+                          <span
+                            className={cn(
+                              "block font-display text-[1.15rem] leading-snug transition-colors duration-300 sm:text-[1.3rem]",
+                              isOpen ? "text-brass-700" : "text-navy-900"
+                            )}
+                          >
+                            {item.title}
+                          </span>
+                          <span
+                            className={cn(
+                              "mt-2 block max-w-xl text-body-sm leading-relaxed transition-colors duration-300",
+                              isOpen ? "text-navy-700" : "text-navy-500"
+                            )}
+                          >
+                            {item.text}
+                          </span>
                         </span>
                         <span
                           className={cn(
-                            "mt-2 block max-w-xl text-[0.89rem] leading-relaxed transition-colors duration-300",
-                            isOpen ? "text-navy-700" : "text-navy-500"
+                            "mt-1 grid h-7 w-7 shrink-0 place-items-center border transition-all duration-300",
+                            isOpen ? "rotate-45 border-brass-600 text-brass-600" : "border-navy-900/20 text-navy-500"
                           )}
                         >
-                          {item.text}
+                          <PlusIcon className="h-3.5 w-3.5" />
                         </span>
-                      </span>
-                      <span
-                        className={cn(
-                          "mt-1 grid h-7 w-7 shrink-0 place-items-center border transition-all duration-300",
-                          isOpen
-                            ? "rotate-45 border-brass-600 text-brass-600"
-                            : "border-navy-900/20 text-navy-500"
-                        )}
-                      >
-                        <PlusIcon className="h-3.5 w-3.5" />
-                      </span>
-                    </button>
-
-                    <div
-                      className={cn(
-                        "grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        isOpen ? "grid-rows-[1fr] pb-8 opacity-100" : "grid-rows-[0fr] opacity-0"
-                      )}
-                    >
-                      <div className="overflow-hidden">
-                        <div className="ltr:pl-13 rtl:pr-13">
-                          <ul className="grid gap-3 sm:grid-cols-2 sm:gap-x-10">
-                            {item.points.map((p) => (
-                              <li key={p} className="flex gap-3">
-                                <CheckIcon className="mt-1 h-3.5 w-3.5 shrink-0 text-brass-500" />
-                                <span className="text-[0.86rem] leading-relaxed text-navy-700">{p}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="mt-6 border border-navy-900/10 bg-ivory-50 px-5 py-4">
-                            <span className="label text-navy-500">{t.expertise.laws}</span>
-                            <p className="mt-2 text-[0.86rem] text-navy-800">{item.laws}</p>
-                          </div>
-                        </div>
+                      </>
+                    }
+                  >
+                    <div className="ltr:pl-13 rtl:pr-13">
+                      <ul className="grid gap-3 sm:grid-cols-2 sm:gap-x-10">
+                        {item.points.map((p) => (
+                          <li key={p} className="flex gap-3">
+                            <CheckIcon className="mt-1 h-3.5 w-3.5 shrink-0 text-brass-500" />
+                            <span className="text-body-sm leading-relaxed text-navy-700">{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-6 border border-navy-900/10 bg-ivory-50 px-5 py-4">
+                        <span className="label text-navy-500">{t.expertise.laws}</span>
+                        <p className="mt-2 text-body-sm text-navy-800">{item.laws}</p>
                       </div>
                     </div>
-                  </div>
+                  </Disclosure>
                 </Reveal>
               );
             })}
@@ -110,13 +102,8 @@ export function Method() {
       <div className="subtle-grid pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
-          <SectionIntro
-            dark
-            eyebrow={t.method.eyebrow}
-            title={t.method.title}
-            titleEm={t.method.titleEm}
-          />
-          <p className="max-w-lg text-[0.92rem] leading-relaxed text-white/60 lg:pb-3">{t.method.lead}</p>
+          <SectionIntro dark eyebrow={t.method.eyebrow} title={t.method.title} titleEm={t.method.titleEm} />
+          <p className="max-w-lg text-body-sm leading-relaxed text-white/60 lg:pb-3">{t.method.lead}</p>
         </div>
 
         <div className="mt-14 grid gap-x-10 gap-y-10 border-t border-white/12 pt-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -125,7 +112,7 @@ export function Method() {
               <p className="font-display text-[1.6rem] leading-none text-brass-400">{s.num}</p>
               <h3 className="mt-5 text-[1.05rem] font-medium text-white">{s.title}</h3>
               <span className="mt-4 block h-px w-10 bg-brass-500/60" />
-              <p className="mt-4 text-[0.87rem] leading-relaxed text-white/60">{s.text}</p>
+              <p className="mt-4 text-body-sm leading-relaxed text-white/60">{s.text}</p>
             </Reveal>
           ))}
         </div>
@@ -150,10 +137,10 @@ export function Career() {
               {t.career.edu.map((e, i) => (
                 <Reveal as="li" key={e.title} delay={i * 70} className="border-b border-navy-900/12 py-5">
                   <div className="grid gap-2 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
-                    <span className="font-display text-[0.95rem] text-brass-600">{e.year}</span>
+                    <span className="font-display text-body-sm text-brass-600">{e.year}</span>
                     <div>
-                      <h3 className="text-[0.98rem] font-medium leading-snug text-navy-900">{e.title}</h3>
-                      <p className="mt-1.5 text-[0.82rem] leading-relaxed text-navy-500">{e.place}</p>
+                      <h3 className="text-body font-medium leading-snug text-navy-900">{e.title}</h3>
+                      <p className="mt-1.5 text-caption leading-relaxed text-navy-500">{e.place}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -165,7 +152,7 @@ export function Career() {
                 <Label>{t.career.courtsTitle}</Label>
                 <ul className="mt-5 space-y-3">
                   {t.career.courts.map((c) => (
-                    <li key={c} className="flex gap-3 text-[0.86rem] leading-relaxed text-navy-700">
+                    <li key={c} className="flex gap-3 text-body-sm leading-relaxed text-navy-700">
                       <span className="mt-2.5 h-px w-4 shrink-0 bg-brass-500" />
                       {c}
                     </li>
@@ -184,12 +171,10 @@ export function Career() {
             <ol className="mt-10 border-t border-navy-900/12">
               {t.career.exp.map((e, i) => (
                 <Reveal as="li" key={e.title} delay={i * 80} className="border-b border-navy-900/12 py-6">
-                  <p className="text-[0.68rem] font-medium uppercase tracking-[0.2em] text-brass-600">
-                    {e.period}
-                  </p>
+                  <p className="text-label font-medium uppercase tracking-[0.2em] text-brass-600">{e.period}</p>
                   <h3 className="mt-3 font-display text-[1.1rem] leading-snug text-navy-900">{e.title}</h3>
-                  <p className="mt-1.5 text-[0.82rem] text-navy-500">{e.place}</p>
-                  <p className="mt-3.5 text-[0.88rem] leading-relaxed text-navy-700">{e.text}</p>
+                  <p className="mt-1.5 text-caption text-navy-500">{e.place}</p>
+                  <p className="mt-3.5 text-body-sm leading-relaxed text-navy-700">{e.text}</p>
                 </Reveal>
               ))}
             </ol>

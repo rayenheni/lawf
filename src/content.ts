@@ -6,8 +6,15 @@ export const LANGS: { code: Lang; label: string; short: string; dir: "ltr" | "rt
   { code: "ar", label: "العربية", short: "AR", dir: "rtl" },
 ];
 
-/** Coordonnées du cabinet — données de démonstration, à remplacer par les informations officielles. */
+/**
+ * Coordonnées du cabinet — données de démonstration, à remplacer par les
+ * informations officielles. `demo: true` drives the honesty guardrails in the
+ * contact form and the footer disclaimers; flip it once real data is loaded.
+ */
 export const CABINET = {
+  demo: true,
+  /** Canonical origin, used for hreflang/canonical/sitemap at build time. */
+  siteUrl: "https://www.cabinet-majdoub.tn",
   lawyer: "Brahim Majdoub",
   honorific: "Maître",
   phoneDisplay: "+216 98 412 763",
@@ -23,7 +30,28 @@ export const CABINET = {
 };
 
 const fr = {
-  dir: "ltr" as "ltr" | "rtl",
+  seo: {
+    title: "Maître Brahim Majdoub — Avocat au Barreau de Tunis",
+    description:
+      "Cabinet de Maître Brahim Majdoub, avocat inscrit au Barreau de Tunis (Tunisie). Droit des sociétés, statut personnel, immobilier, droit du travail, pénal des affaires, recouvrement de créances et voies d'exécution. Conseil préventif, négociation et plaidoirie — honoraires convenus par écrit.",
+  },
+  brand: {
+    name: "Brahim Majdoub",
+    initials: "BM",
+  },
+  a11y: {
+    skip: "Aller au contenu principal",
+    menu: "Ouvrir le menu",
+    close: "Fermer le menu",
+    lang: "Choisir la langue du site",
+    map: "Localisation du cabinet sur Google Maps",
+    facebook: "Page Facebook du cabinet",
+    whatsapp: "Contacter le cabinet sur WhatsApp",
+    email: "Écrire un e-mail au cabinet",
+    phone: "Appeler le cabinet",
+    top: "Revenir en haut de la page",
+    nav: "Navigation principale",
+  },
   nav: {
     about: "Le cabinet",
     expertise: "Domaines",
@@ -222,7 +250,11 @@ const fr = {
     eduTitle: "Formation",
     eduEm: "académique",
     edu: [
-      { year: "2012", title: "Licence en droit privé", place: "Faculté des sciences juridiques, politiques et sociales de Tunis" },
+      {
+        year: "2012",
+        title: "Licence en droit privé",
+        place: "Faculté des sciences juridiques, politiques et sociales de Tunis",
+      },
       {
         year: "2015",
         title: "Master professionnel en droit des affaires",
@@ -280,7 +312,7 @@ const fr = {
     eyebrow: "05 — Avis clients",
     title: "Ce que disent",
     titleEm: "les clients.",
-    note: "Avis publiés avec l'accord des intéressés ; initiales et fonctions simplifiées afin de préserver la confidentialité.",
+    note: "Exemples illustratifs de retours clients, présentés à titre de gabarit : à remplacer, avant mise en ligne, par des avis recueillis avec le consentement écrit de chaque client.",
     items: [
       {
         quote:
@@ -384,13 +416,22 @@ const fr = {
       slot: "Créneau souhaité",
       slots: ["Matin (8h30 — 12h)", "Après-midi (13h30 — 17h30)", "Par téléphone", "Visioconférence"],
       message: "Votre message",
-      messagePh: "Exposez brièvement les faits, les parties concernées, les démarches déjà engagées et les délais éventuels…",
+      messagePh:
+        "Exposez brièvement les faits, les parties concernées, les démarches déjà engagées et les délais éventuels…",
       submit: "Transmettre la demande",
       whatsapp: "Transmettre par WhatsApp",
       note: "Vos informations sont traitées de manière strictement confidentielle. Aucune diligence n'est engagée avant la signature d'une convention d'honoraires.",
       required: "Merci d'indiquer votre nom, un moyen de contact et un exposé succinct de votre situation.",
-      success: "Votre demande a été enregistrée.",
-      successSub: "Une réponse vous sera adressée sous 24 heures ouvrées.",
+      greeting: "Bonjour Maître Majdoub,",
+      sending: "Envoi en cours…",
+      sentTitle: "Votre demande a été transmise.",
+      sentSub: "Le cabinet vous répondra sous 24 heures ouvrées.",
+      preparedTitle: "Votre demande est prête à être transmise.",
+      preparedSub:
+        "Aucun envoi automatique n'est configuré sur ce site : choisissez votre canal ci-dessous, votre message est déjà rédigé.",
+      networkError:
+        "L'envoi a échoué. Vérifiez votre connexion puis réessayez, ou utilisez l'un des canaux ci-dessous.",
+      channelLabel: "Choisir un canal d'envoi",
       reopen: "Transmettre une autre demande",
       summaryTitle: "Récapitulatif de la demande",
     },
@@ -401,17 +442,52 @@ const fr = {
     navTitle: "Navigation",
     expertiseTitle: "Domaines",
     legalTitle: "Informations",
-    legal1:
-      "Les informations publiées sur ce site sont générales et ne constituent pas une consultation juridique.",
+    legal1: "Les informations publiées sur ce site sont générales et ne constituent pas une consultation juridique.",
     legal2:
       "Coordonnées de démonstration — à remplacer par les informations officielles du cabinet (Ordre National des Avocats de Tunisie).",
+    legal3:
+      "Chiffres et témoignages présentés à titre indicatif dans cette version ; ils seront étayés par les pièces du cabinet avant toute diffusion publique.",
     rights: "Tous droits réservés.",
     top: "Haut de page",
+  },
+  legal: {
+    title: "Mentions légales & confidentialité",
+    editor: "Éditeur du site",
+    editorValue: "Cabinet de Maître Brahim Majdoub, avocat inscrit au Barreau de Tunis.",
+    hosting: "Hébergement",
+    hostingValue: "À préciser lors de la mise en production.",
+    dataTitle: "Données personnelles",
+    dataBody:
+      "Les informations saisies dans le formulaire servent uniquement à préparer votre demande : elles ne sont ni enregistrées par ce site, ni communiquées à des tiers. Conformément à la loi organique n° 2004-63 relative à la protection des données personnelles, vous disposez d'un droit d'accès, de rectification et de suppression, à exercer auprès du cabinet par l'un des canaux de contact ci-dessus.",
+    cookiesTitle: "Cookies",
+    cookies:
+      "Ce site ne dépose aucun cookie de mesure d'audience. La carte intégrée est servie par Google Maps, susceptible d'appliquer ses propres règles de confidentialité.",
   },
 };
 
 const en: typeof fr = {
-  dir: "ltr",
+  seo: {
+    title: "Maître Brahim Majdoub — Lawyer at the Tunis Bar",
+    description:
+      "Office of Maître Brahim Majdoub, lawyer enrolled at the Tunis Bar (Tunisia). Company law, personal status, real estate, employment, business criminal law, debt recovery and enforcement. Preventive advice, negotiation and advocacy — fees agreed in writing.",
+  },
+  brand: {
+    name: "Brahim Majdoub",
+    initials: "BM",
+  },
+  a11y: {
+    skip: "Skip to main content",
+    menu: "Open the menu",
+    close: "Close the menu",
+    lang: "Choose the site language",
+    map: "Firm location on Google Maps",
+    facebook: "Firm Facebook page",
+    whatsapp: "Contact the firm on WhatsApp",
+    email: "Email the firm",
+    phone: "Call the firm",
+    top: "Back to the top of the page",
+    nav: "Main navigation",
+  },
   nav: {
     about: "The firm",
     expertise: "Practice",
@@ -672,7 +748,7 @@ const en: typeof fr = {
     eyebrow: "05 — Client reviews",
     title: "What clients",
     titleEm: "say.",
-    note: "Reviews published with the clients' consent; names abbreviated and roles simplified to preserve confidentiality.",
+    note: "Illustrative examples of client feedback, shown as a template: to be replaced, before going live, with reviews collected with each client's written consent.",
     items: [
       {
         quote:
@@ -781,28 +857,70 @@ const en: typeof fr = {
       whatsapp: "Send via WhatsApp",
       note: "Your information is treated as strictly confidential. No step is taken before a fee agreement is signed.",
       required: "Please provide your name, a way to contact you and a short description of your situation.",
-      success: "Your request has been recorded.",
-      successSub: "An answer will be sent within 24 working hours.",
+      greeting: "Dear Maître Majdoub,",
+      sending: "Sending…",
+      sentTitle: "Your request has been sent.",
+      sentSub: "The firm will reply within 24 working hours.",
+      preparedTitle: "Your request is ready to send.",
+      preparedSub:
+        "No automatic sending is configured on this site: pick a channel below — your message is already drafted.",
+      networkError: "Sending failed. Check your connection and try again, or use one of the channels below.",
+      channelLabel: "Choose a sending channel",
       reopen: "Send another request",
       summaryTitle: "Request summary",
     },
   },
   footer: {
-    tagline:
-      "Law firm registered with the Tunis Bar — advice, negotiation and advocacy before the Tunisian courts.",
+    tagline: "Law firm registered with the Tunis Bar — advice, negotiation and advocacy before the Tunisian courts.",
     navTitle: "Navigation",
     expertiseTitle: "Practice areas",
     legalTitle: "Information",
     legal1: "Information published on this site is general and does not constitute legal advice.",
     legal2:
       "Demo contact details — to be replaced with the firm's official information (National Bar Association of Tunisia).",
+    legal3:
+      "Figures and testimonials shown here are indicative for this version; they will be substantiated by the firm's records before any public release.",
     rights: "All rights reserved.",
     top: "Back to top",
+  },
+  legal: {
+    title: "Legal notice & privacy",
+    editor: "Site publisher",
+    editorValue: "Office of Maître Brahim Majdoub, lawyer registered with the Tunis Bar.",
+    hosting: "Hosting",
+    hostingValue: "To be specified before going live.",
+    dataTitle: "Personal data",
+    dataBody:
+      "The information entered in the form is used solely to prepare your request: it is neither stored by this site nor passed on to third parties. In line with Organic Law No. 2004-63 on the protection of personal data, you may exercise your rights of access, rectification and erasure by contacting the firm through any of the channels above.",
+    cookiesTitle: "Cookies",
+    cookies:
+      "This site sets no analytics cookies. The embedded map is served by Google Maps, which may apply its own privacy rules.",
   },
 };
 
 const ar: typeof fr = {
-  dir: "rtl",
+  seo: {
+    title: "الأستاذ إبراهيم مجدوب — محام بعمادة محامي تونس",
+    description:
+      "مكتب الأستاذ إبراهيم مجدوب، المحامي المسجّل بالعمادة الوطنية للمحامين بتونس: قانون الشركات، الأحوال الشخصية، العقار، قانون الشغل، الجزائي الاقتصادي، استخلاص الديون والتنفيذ — استشارة وتفاوض ومرافعة بأتعاب متفق عليها كتابة.",
+  },
+  brand: {
+    name: "إبراهيم مجدوب",
+    initials: "إ م",
+  },
+  a11y: {
+    skip: "الانتقال إلى المحتوى الرئيسي",
+    menu: "فتح القائمة",
+    close: "إغلاق القائمة",
+    lang: "اختيار لغة الموقع",
+    map: "موقع المكتب على خرائط جوجل",
+    facebook: "صفحة المكتب على فيسبوك",
+    whatsapp: "مراسلة المكتب على واتساب",
+    email: "مراسلة المكتب بالبريد الإلكتروني",
+    phone: "الاتصال الهاتفي بالمكتب",
+    top: "العودة إلى أعلى الصفحة",
+    nav: "التنقل الرئيسي",
+  },
   nav: {
     about: "المكتب",
     expertise: "مجالات التدخل",
@@ -1063,7 +1181,7 @@ const ar: typeof fr = {
     eyebrow: "٥ — آراء الحرفاء",
     title: "ماذا يقول",
     titleEm: "الحرفاء.",
-    note: "آراء منشورة بموافقة أصحابها، مع اختصار الأسماء وتخفيف الصفات حفظاً للسرية.",
+    note: "أمثلة توضيحية لآراء موكلين، تُعرض على سبيل النموذج: تُستبدل قبل النشر بآراء مُجمعة بموافقة كتابية من كل موكّل.",
     items: [
       {
         quote:
@@ -1077,13 +1195,13 @@ const ar: typeof fr = {
         role: "حريفة — قانون الأسرة",
       },
       {
-        quote: "تمّ استخلاص دين بقيمة 320.000 دينار بواسطة التمسك بالغرمية في أقل من سنة، وبأتعاب مطابقة للتقدير الأولي.",
+        quote:
+          "تمّ استخلاص دين بقيمة 320.000 دينار بواسطة التمسك بالغرمية في أقل من سنة، وبأتعاب مطابقة للتقدير الأولي.",
         name: "حاتم م.",
         role: "مسيّر — استخلاص الديون",
       },
       {
-        quote:
-          "أقيم في إيطاليا وأنجزت بيع عقاري بتونس عن بُعد، مع تقارير منتظمة وتوكيل مُحكَم الصياغة.",
+        quote: "أقيم في إيطاليا وأنجزت بيع عقاري بتونس عن بُعد، مع تقارير منتظمة وتوكيل مُحكَم الصياغة.",
         name: "جوليا ر.",
         role: "حريفة بالخارج — العقار",
       },
@@ -1170,8 +1288,14 @@ const ar: typeof fr = {
       whatsapp: "إرسال عبر واتساب",
       note: "تُعالَج معطياتكم بسرية تامة، ولا يُباشر أي إجراء قبل توقيع اتفاق الأتعاب.",
       required: "يرجى إدخال الاسم ووسيلة اتصال وعرض موجز للوضعية.",
-      success: "تمّ تسجيل طلبكم.",
-      successSub: "سيصلكم الرد داخل 24 ساعة عمل.",
+      greeting: "تحية طيبة الأستاذ المحترم،",
+      sending: "جارٍ الإرسال…",
+      sentTitle: "تمّ إرسال طلبكم.",
+      sentSub: "سيصلكم الرد داخل 24 ساعة عمل.",
+      preparedTitle: "طلبكم جاهز للإرسال.",
+      preparedSub: "لا يُفعَّل أي إرسال آلي في هذا الموقع: اختاروا القناة أدناه، ورسالتكم مُحرَّرة سلفاً.",
+      networkError: "تعذّر الإرسال. تحقّقوا من الاتصال ثم أعيدوا المحاولة، أو استعملوا إحدى القنوات أدناه.",
+      channelLabel: "اختيار قناة الإرسال",
       reopen: "إرسال طلب آخر",
       summaryTitle: "خلاصة الطلب",
     },
@@ -1183,8 +1307,22 @@ const ar: typeof fr = {
     legalTitle: "معلومات",
     legal1: "المعلومات المنشورة في هذا الموقع عامة ولا تُعدّ استشارة قانونية.",
     legal2: "معطيات الاتصال للعرض فقط — يجب استبدالها بالمعلومات الرسمية للمكتب (الهيئة الوطنية للمحامين بتونس).",
+    legal3: "الأرقام والشهادات المعروضة هنا إرشادية في هذه النسخة، وتُستكمل بوثائق المكتب قبل أي نشر علني.",
     rights: "جميع الحقوق محفوظة.",
     top: "أعلى الصفحة",
+  },
+  legal: {
+    title: "التعريف القانوني وحماية المعطيات",
+    editor: "ناشر الموقع",
+    editorValue: "مكتب الأستاذ إبراهيم مجدوب، المحامي المسجّل بعمادة محامي تونس.",
+    hosting: "الاستضافة",
+    hostingValue: "تُحدَّد عند الدخول حيّز الإنتاج.",
+    dataTitle: "المعطيات الشخصية",
+    dataBody:
+      "تُستعمل المعطيات المُدخلة في الاستمارة لإعداد طلبكم فقط: فلا يُخزّنها هذا الموقع ولا يُحيلها إلى الغير. وعملاً بالقانون الأساسي عدد 63 لسنة 2004 المتعلق بحماية المعطيات الشخصية، لكم حق النفاذ والتعديل والحذف بمخاطبة المكتب بإحدى قنوات الاتصال المذكورة أعلاه.",
+    cookiesTitle: "الكوكيز (ملفّات تعريف الارتباط)",
+    cookies:
+      "لا يودع هذا الموقع أي كوكي لقياس الجمهور. الخريطة المضمّنة توفّرها خرائط جوجل وقد تطبّق قواعدها الخاصة في حماية الخصوصية.",
   },
 };
 

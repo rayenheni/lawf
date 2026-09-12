@@ -1,7 +1,8 @@
 import office from "../assets/office.jpg";
+import officeWebp from "../assets/office.webp";
 import { useLang } from "../context";
 import { CheckIcon } from "../components/icons";
-import { DataTable, Label, Reveal, SectionIntro } from "../components/ui";
+import { DataTable, Label, Picture, Reveal, SectionIntro } from "../components/ui";
 
 export function About() {
   const { t } = useLang();
@@ -19,17 +20,17 @@ export function About() {
               />
 
               <Reveal delay={140}>
-                <p className="mt-7 text-[0.94rem] leading-relaxed text-navy-700">{t.about.p1}</p>
+                <p className="mt-7 text-body-sm leading-relaxed text-navy-700">{t.about.p1}</p>
               </Reveal>
               <Reveal delay={190}>
-                <p className="mt-4 text-[0.94rem] leading-relaxed text-navy-700">{t.about.p2}</p>
+                <p className="mt-4 text-body-sm leading-relaxed text-navy-700">{t.about.p2}</p>
               </Reveal>
 
               <ul className="mt-9 space-y-3.5">
                 {t.about.bullets.map((b, i) => (
                   <Reveal as="li" key={b} delay={i * 70} className="flex gap-3.5">
                     <CheckIcon className="mt-1 h-3.5 w-3.5 shrink-0 text-brass-600" />
-                    <span className="text-[0.9rem] leading-relaxed text-navy-800">{b}</span>
+                    <span className="text-body-sm leading-relaxed text-navy-800">{b}</span>
                   </Reveal>
                 ))}
               </ul>
@@ -45,11 +46,17 @@ export function About() {
             <div className="lg:pt-20">
               <Reveal delay={100} className="relative">
                 <div className="overflow-hidden border border-navy-900/10">
-                  <img src={office} alt={t.about.caption} className="aspect-[4/3] w-full object-cover" />
+                  <Picture
+                    webp={officeWebp}
+                    jpeg={office}
+                    alt={t.about.caption}
+                    width={960}
+                    height={640}
+                    className="block"
+                    imgClassName="aspect-[4/3] w-full object-cover"
+                  />
                 </div>
-                <p className="mt-3.5 text-[0.7rem] uppercase tracking-[0.2em] text-navy-500">
-                  {t.about.caption}
-                </p>
+                <p className="mt-3.5 text-label uppercase tracking-[0.2em] text-navy-500">{t.about.caption}</p>
               </Reveal>
 
               <Reveal delay={180} className="mt-10 border border-navy-900/10 p-6">
@@ -58,16 +65,11 @@ export function About() {
                   {t.about.languages.map((l) => (
                     <li key={l.name}>
                       <div className="flex items-baseline justify-between gap-4">
-                        <span className="text-[0.9rem] font-medium text-navy-900">{l.name}</span>
-                        <span className="text-[0.7rem] uppercase tracking-[0.16em] text-navy-500">
-                          {l.level}
-                        </span>
+                        <span className="text-body-sm font-medium text-navy-900">{l.name}</span>
+                        <span className="text-label uppercase tracking-[0.16em] text-navy-500">{l.level}</span>
                       </div>
                       <span className="mt-2.5 block h-[2px] w-full bg-navy-900/10">
-                        <span
-                          className="block h-full bg-brass-500/80"
-                          style={{ width: `${l.pct}%` }}
-                        />
+                        <span className="block h-full bg-brass-500/80" style={{ width: `${l.pct}%` }} />
                       </span>
                     </li>
                   ))}
@@ -93,7 +95,7 @@ export function About() {
                   <span className="font-display text-sm text-brass-600">{e.num}</span>
                   <h3 className="text-[1.05rem] font-medium text-navy-900">{e.title}</h3>
                 </div>
-                <p className="mt-4 text-[0.89rem] leading-relaxed text-navy-600">{e.text}</p>
+                <p className="mt-4 text-body-sm leading-relaxed text-navy-600">{e.text}</p>
               </Reveal>
             ))}
           </div>
