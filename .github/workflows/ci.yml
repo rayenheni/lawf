@@ -18,32 +18,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install
-        run: npm ci
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Format check
-        run: npm run format:check
-
-      - name: Test
-        run: npm test
-
-      - name: Build (pre-rendered, per locale)
-        run: npm run build
-
-      - name: Assert every locale was pre-rendered
-        run: |
-          test -s dist/index.html
-          test -s dist/en/index.html
-          test -s dist/ar/index.html
-          test -s dist/sitemap.xml
-          test -s dist/robots.txt
-          grep -q 'dir="rtl"' dist/ar/index.html
-          grep -q 'id="root"><div' dist/ar/index.html
+      - name: Static checks (pages, hreflang, ancres, assets, labels)
+        run: npm run check

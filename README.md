@@ -1,121 +1,83 @@
-# lawf — Cabinet d'avocat, site trilingue pré-rendu
+# lawf — site du cabinet, trilingue et statique
 
-Single-page marketing site for a Tunis law firm, in **French, English and Arabic**
-(with full RTL layout), pre-rendered at build time into one crawlable HTML
-document per locale and hydrated on the client.
+Site d'un cabinet d'avocat à Tunis, en **français, anglais et arabe** (page arabe
+entièrement RTL), sous forme de **HTML / CSS / JS vanilla** : aucun build, aucun
+framework, aucune dépendance à l'exécution. Chaque langue est un vrai document
+statique, donc crawlable sans JavaScript.
 
-Stack: React 19 · TypeScript (strict) · Vite 7 · Tailwind CSS 4 · Vitest.
+```
+index.html            page française (racine)
+en/index.html         page anglaise
+ar/index.html         page arabe (dir="rtl")
+assets/css/style.css  feuille de style unique (propriétés logiques : 1 fichier = 2 directions)
+assets/js/main.js     ~90 lignes : menu mobile, compteurs, composeur WhatsApp/e-mail, année
+assets/img/           images servies (WebP + JPEG de repli, générées par npm run images)
+assets/original/      originaux intouchés (source du pipeline d'images)
+robots.txt sitemap.xml assets/favicon.svg
+scripts/check.mjs     vérifications statiques lancées par la CI
+```
 
----
-
-## Quick start
+## Servir le site
 
 ```bash
-npm install
-npm run dev        # http://localhost:5173
+npm run serve          # http://localhost:5173  (python3 -m http.server)
 ```
 
-| Script                 | What it does                                                             |
-| ---------------------- | ------------------------------------------------------------------------ |
-| `npm run dev`          | Dev server (proxied hosts allowed — see `vite.config.ts`)                |
-| `npm run build`        | Client build → SSR build → **pre-render** `/`, `/en/`, `/ar/` + sitemap  |
-| `npm run build:single` | Legacy one-file artifact (inlines everything into a single `index.html`) |
-| `npm run preview`      | Serve `dist/`                                                            |
-| `npm test`             | Vitest (pure logic + component behaviour)                                |
-| `npm run typecheck`    | `tsc --noEmit` under `strict`                                            |
-| `npm run lint`         | ESLint (TS + react-hooks + jsx-a11y)                                     |
-| `npm run format`       | Prettier                                                                 |
-| `npm run images`       | Re-derive optimised WebP/JPEG from `src/assets/original/`                |
+N'importe quel hébergement statique fonctionne (CDN, objet storage, Apache,
+nginx…) : copiez le dépôt tel quel. Conservez la structure `/`, `/en/`, `/ar/`
+et remplacez `https://www.cabinet-majdoub.tn` (utilisé dans canonical, hreflang,
+sitemap et JSON-LD) par le domaine réel.
 
----
+## Modifier le contenu
 
-## Architecture
+Chaque page est autonome : ouvrez-la et éditez le texte directement. Les trois
+pages partagent la même structure de sections —
 
+1. **hero** (badge, titre, lead, 2 CTA, 3 repères, image, bandeau de 4 compteurs)
+2. **citation** (bandeau sombre)
+3. **services** (6 cartes numérotées)
+4. **cabinet** (portrait + badge d'expérience, méthode, 4 engagements)
+5. **avis** (4 cartes à initiales + note de transparence)
+6. **bandeau CTA** (rendez-vous + téléphone)
+7. **contact** (composeur honnête + coordonnées)
+8. **pied de page** (navigation, coordonnées, mentions légales dépliables)
+
+— donc une modification de structure se reporte sur les 3 fichiers.
+
+## Le formulaire est honnête par construction
+
+Aucun backend : les boutons **WhatsApp** et **e-mail** construisent en direct
+(`assets/js/main.js`) le message à partir des champs, puis ouvrent l'application
+du visiteur. Le site n'affiche jamais « message envoyé » : rien n'est transmis
+en silence, rien n'est stocké. Le jour où un vrai point d'entrée existe,
+remplacez le composeur par un `fetch` vers celui-ci.
+
+## Images
+
+```bash
+npm install            # installe sharp (seule dépendance, de développement)
+npm run images         # assets/original/ -> assets/img/ (WebP + JPEG progressif)
 ```
-src/
-  content.ts        All copy for the 3 locales + cabinet coordinates.
-                    `const en: typeof fr` / `const ar: typeof fr` make a
-                    missing or drifted translation key a COMPILE error.
-  context.tsx       LangProvider (locale + document lang/dir), scroll hooks.
-  entry-server.tsx  SSR entry used only by scripts/prerender.mjs.
-  main.tsx          hydrateRoot() when markup is present, createRoot() otherwise.
-  lib/contact.ts    Pure, tested form logic (validation, message, hrefs, POST).
-  components/       chrome (header/drawer/footer), ui primitives, icons.
-  sections/         One file per page section.
-scripts/
-  optimize-images.mjs  sharp pipeline: original/ -> webp + progressive jpeg.
-  prerender.mjs        Builds per-locale HTML, hreflang, canonical, JSON-LD,
-                       sitemap.xml and robots.txt into dist/.
-```
 
-### The content boundary
+## Accessibilité & RTL
 
-**No user-facing string lives in a component.** Every label, including
-`aria-label`s, the WhatsApp salutation and the SEO title, comes from
-`content.ts`. Adding a locale means adding one object; the type system then
-lists every key you must provide.
+Lien d'évitement, menu mobile via l'attribut `hidden` (hors tab-order quand
+fermé, Escape pour fermer), labels appariés aux champs, `aria-current` sur la
+langue active, `prefers-reduced-motion` respecté, contrastes mesurés (le laiton
+sur fond clair utilise `--gold` #8a6c30, ≥ 4.5:1). La feuille de style n'emploie
+que des propriétés logiques (`margin-inline`, `padding-inline`,
+`inset-inline-end`) : la page arabe se contente de `dir="rtl"`, avec polices
+arabes dédiées et annulation du crénage latin.
 
-### Pre-rendering & hydration
+## Données de démonstration
 
-`npm run build` renders the app to a string per locale and injects it into the
-built shell, so crawlers and no-JS visitors receive the full text. The client
-then hydrates. Two invariants keep hydration byte-identical:
+Coordonnées, chiffres et témoignages sont des **placeholders** ; les trois pieds
+de page le signalent. Avant mise en ligne pour un praticien réel : remplacer les
+coordonnées, substituer des avis recueillis avec consentement écrit, compléter
+l'hébergement dans les mentions légales et déclarer le traitement à l'INPDP.
 
-1. `LangProvider` seeds its state from `<html lang>` (`detectLang()`), never
-   from a hard-coded default.
-2. The scroll-reveal styles are scoped under `html.js`, which an inline script
-   adds before first paint — so server markup, no-JS visitors and the first
-   client paint all agree that content is visible.
+## CI
 
-### Images
-
-`src/assets/original/` holds the untouched sources. `npm run images` derives
-the delivered files (WebP + progressive JPEG fallback, sized to the largest
-rendered box at 2×, EXIF-rotated, metadata stripped). Components use the
-`<Picture>` primitive so intrinsic dimensions prevent layout shift.
-
----
-
-## Contact form
-
-The form is honest by construction:
-
-- **With `VITE_CONTACT_ENDPOINT` set** — the draft is POSTed as JSON; the
-  confirmation screen is only shown on a 2xx response, and a failure shows a
-  retry state plus the direct channels.
-- **Without it** — the form never claims to have sent anything. It shows a
-  _"your request is ready"_ state with the message already drafted for
-  WhatsApp and e-mail, so a static deployment still converts leads.
-
-See `.env.example`. The logic lives in `src/lib/contact.ts` and is unit-tested.
-
----
-
-## Demo data — read before going live
-
-`CABINET.demo` is `true`. Phone numbers, e-mail, address, statistics and
-testimonials are **placeholders**; the footer discloses this in all three
-locales. Before publishing for a real practitioner:
-
-1. Replace `CABINET` and set `demo: false`.
-2. Replace the testimonial set with reviews backed by written client consent
-   (bar advertising rules apply), or remove the section.
-3. Fill `legal.hostingValue` and publish the INPDP data-protection declaration
-   required for any personal-data processing in Tunisia.
-
----
-
-## Accessibility
-
-WCAG 2.1 AA is the target and is enforced where automatable (`eslint-plugin-jsx-a11y`,
-plus contrast measured for every text/background pair in the palette). Notable
-points: skip link, real modal dialog for the mobile menu (focus trap, Escape,
-`inert` when closed), labelled form controls, `aria-expanded`/`aria-controls`
-on every disclosure, `prefers-reduced-motion` support, and an 11px type floor
-(see the `@theme` scale in `src/index.css`).
-
-## Deployment
-
-`dist/` is a plain static site: serve it from any CDN or object storage.
-Point the host at `CABINET.siteUrl` (used for canonical/hreflang/sitemap) and
-keep the directory structure — `/`, `/en/`, `/ar/`.
+`.github/workflows/ci.yml` exécute `npm run check` : présence et `lang`/`dir`
+des 3 pages, hreflang + canonical, ancres internes résolues, assets locaux
+présents, labels de formulaire appariés.

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.cabinet-majdoub.tn/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.cabinet-majdoub.tn/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.cabinet-majdoub.tn/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.cabinet-majdoub.tn/ar/" />
+  </url>
+  <url>
+    <loc>https://www.cabinet-majdoub.tn/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.cabinet-majdoub.tn/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.cabinet-majdoub.tn/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.cabinet-majdoub.tn/ar/" />
+  </url>
+  <url>
+    <loc>https://www.cabinet-majdoub.tn/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.cabinet-majdoub.tn/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.cabinet-majdoub.tn/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.cabinet-majdoub.tn/ar/" />
+  </url>
+</urlset>
