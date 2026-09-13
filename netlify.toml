@@ -1,0 +1,28 @@
+# Site 100 % statique : aucun build, on publie la racine du dépôt.
+[build]
+  command = ""
+  publish = "."
+
+# Netlify sert automatiquement /en/ et /ar/ (pretty URLs) —
+# ces redirections couvrent les variantes sans slash final.
+[[redirects]]
+  from = "/en"
+  to = "/en/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ar"
+  to = "/ar/index.html"
+  status = 200
+
+# 404 personnalisée = la page d'accueil (évite les écrans vides)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# Cache long pour les assets fingerprintés par leur contenu
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
