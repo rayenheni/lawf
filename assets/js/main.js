@@ -1,11 +1,15 @@
-/* lawf — vanilla JS, ~90 lignes, aucune dépendance.
+/* lawf — vanilla JS, aucune dépendance.
    1) menu mobile (attribut `hidden` : hors tab-order quand fermé)
    2) compteurs animés (désactivés si prefers-reduced-motion)
    3) composeur honnête : le formulaire fabrique en direct les liens
       WhatsApp / e-mail ; rien n'est jamais "envoyé" en silence
-   4) année du pied de page                                        */
+   4) bouton "haut de page" visible après scroll
+   5) année du pied de page                                        */
 (function () {
   "use strict";
+
+  var reduce =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- menu mobile ---------- */
   var burger = document.querySelector("[data-menu-btn]");
@@ -32,8 +36,6 @@
 
   /* ---------- compteurs ---------- */
   var counters = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
-  var reduce =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || !("IntersectionObserver" in window)) {
     counters.forEach(function (el) {
       el.textContent = el.getAttribute("data-count");
@@ -93,6 +95,19 @@
     };
     form.addEventListener("input", build);
     build();
+  }
+
+  /* ---------- haut de page ---------- */
+  var top = document.querySelector("[data-top]");
+  if (top) {
+    var onScroll = function () {
+      top.style.visibility = window.scrollY > 600 ? "visible" : "hidden";
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    top.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
   }
 
   /* ---------- année ---------- */
