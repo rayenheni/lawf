@@ -44,7 +44,10 @@ for (const page of PAGES) {
     if (!html.includes(`id="${a}"`)) fail(`${page.file}: ancre #${a} sans cible`);
 
   // chemins locaux
-  const locals = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map((m) => m[1]);
+  // query string de versionnage (?v=…) ignorée : le fichier vérifié est le chemin nu
+  const locals = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map((m) =>
+    m[1].split(/[?#]/)[0]
+  );
   for (const l of new Set(locals)) {
     try {
       await readFile(path.join(root, l), null);

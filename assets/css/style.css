@@ -537,6 +537,11 @@ button {
   color: var(--gold);
 }
 
+/* le chiffre du compteur : même rendu que le nombre, jamais doré */
+.stat-card b i.n {
+  color: var(--ink);
+}
+
 /* sélecteur enfant direct : ne doit JAMAIS toucher le <span> du compteur */
 .stat-card > div > span {
   display: block;
