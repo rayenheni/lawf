@@ -282,24 +282,19 @@ button {
 }
 
 .mark .who {
+  display: block;
   line-height: 1.3;
+  border-top: 0;
+  padding-top: 0;
 }
 
 .mark .who strong {
   display: block;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.02rem;
+  font-size: 1.12rem;
+  letter-spacing: 0.01em;
   color: var(--ink);
-}
-
-.mark .who span {
-  display: block;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--gold);
 }
 
 .nav {
@@ -526,10 +521,13 @@ button {
 }
 
 .stat-card b {
-  display: block;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.65rem;
+  font-size: 2rem;
   line-height: 1;
   color: var(--ink);
 }
@@ -539,7 +537,8 @@ button {
   color: var(--gold);
 }
 
-.stat-card span {
+/* sélecteur enfant direct : ne doit JAMAIS toucher le <span> du compteur */
+.stat-card > div > span {
   display: block;
   margin-top: 9px;
   font-size: 0.62rem;
@@ -1357,7 +1356,7 @@ button {
 [dir="rtl"] .mark .who span,
 [dir="rtl"] .foot-mark span,
 [dir="rtl"] .lang-pill a,
-[dir="rtl"] .stat-card span,
+[dir="rtl"] .stat-card > div > span,
 [dir="rtl"] .hero-badge strong,
 [dir="rtl"] .xp-card .lb,
 [dir="rtl"] .who span,
