@@ -21,8 +21,22 @@
   to = "/index.html"
   status = 404
 
-# Cache long pour les assets fingerprintés par leur contenu
+# Images : cache long (leur contenu ne change jamais)
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# CSS/JS : revalidation systématique — un nouveau déploiement
+# doit toujours servir la nouvelle version (pas de cache immutable
+# sur des URLs non fingerprintées, sinon les navigateurs gardent
+# l'ancien style.css).
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

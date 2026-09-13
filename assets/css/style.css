@@ -1336,7 +1336,7 @@ button {
 /* ---------- RTL ---------- */
 
 [dir="rtl"] body {
-  font-family: "IBM Plex Sans Arabic", var(--font-body);
+  font-family: "Almarai", var(--font-body);
 }
 
 [dir="rtl"] h1,
@@ -1347,8 +1347,20 @@ button {
 [dir="rtl"] .mark .who strong,
 [dir="rtl"] .foot-mark strong,
 [dir="rtl"] .xp-card b,
-[dir="rtl"] .stat-card b {
-  font-family: "Noto Naskh Arabic", var(--font-display);
+[dir="rtl"] .stat-card b,
+[dir="rtl"] .faq summary {
+  font-family: "Amiri", var(--font-display);
+}
+
+/* L'arabe (Amiri) porte des hampes hautes : interlignage plus aéré
+   que le latin pour un rendu premium sans écrasement. */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] blockquote,
+[dir="rtl"] .faq summary {
+  line-height: 1.5;
 }
 
 /* Le crénage conçu pour les capitales latines casse les liaisons arabes. */
