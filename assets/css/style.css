@@ -14,7 +14,7 @@
   --navy: #0f1c26;
   --navy-2: #1b2833;
   --ink: #182026;
-  --text: #5f6a74;
+  --text: #56616b;
   --gold: #b08a3c;
   --gold-2: #c2a055;
   --gold-soft: #e9dfc8;
@@ -1457,5 +1457,234 @@ button {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   v3 — améliorations UX issues de l'étude des meilleurs sites d'avocats :
+   téléphone cliquable dans l'en-tête, puces de confiance dans le hero,
+   section FAQ (accordéon natif + schema FAQPage), carte du cabinet,
+   barre d'appel collante sur mobile.
+   ========================================================================== */
+
+.head-tel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.head-tel svg {
+  width: 15px;
+  height: 15px;
+  color: var(--gold);
+  flex: none;
+}
+
+.head-tel:hover {
+  color: var(--gold);
+}
+
+/* puces de confiance (hero) */
+.trust-chips {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trust-chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #414b54;
+}
+
+.trust-chips svg {
+  width: 13px;
+  height: 13px;
+  color: var(--gold);
+  flex: none;
+}
+
+/* FAQ */
+.faq {
+  background: var(--bg-soft);
+}
+
+.faq-list {
+  max-width: 820px;
+  margin-top: 42px;
+  display: grid;
+  gap: 12px;
+}
+
+.faq details {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--gold);
+  transition: transform 0.25s ease;
+  flex: none;
+}
+
+.faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq details[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq .a {
+  padding: 16px 22px 20px;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+/* mention "60 secondes" du formulaire */
+.form-card h3 small {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  margin-inline-start: 10px;
+  white-space: nowrap;
+}
+
+/* carte OpenStreetMap */
+.map-card {
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--white);
+}
+
+.map-card iframe {
+  display: block;
+  width: 100%;
+  height: 220px;
+  border: 0;
+}
+
+.map-card > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.map-card > a:hover {
+  text-decoration: underline;
+}
+
+/* barre d'appel collante (mobile) */
+.callbar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 70;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.callbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 10px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  background: var(--navy);
+  color: #fff;
+}
+
+.callbar a.wa {
+  background: var(--wa);
+}
+
+.callbar svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+@media (max-width: 1020px) {
+  .head-tel {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .callbar {
+    display: grid;
+  }
+
+  body {
+    padding-bottom: 54px;
+  }
+
+  .fabs {
+    bottom: 76px;
+  }
+
+  /* la barre d'appel remplace le bouton flottant WhatsApp */
+  .fab-wa {
+    display: none;
+  }
+
+  .faq summary {
+    padding: 15px 16px;
+    font-size: 0.95rem;
+  }
+
+  .faq .a {
+    padding: 13px 16px 16px;
   }
 }
