@@ -8,6 +8,10 @@
 (function () {
   "use strict";
 
+  /* signale la présence de JS : les états masqués (.reveal) ne
+     s'appliquent que sous .js, sinon le contenu reste visible sans JS */
+  document.documentElement.classList.add("js");
+
   var reduce =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -108,6 +112,49 @@
     top.addEventListener("click", function () {
       window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
     });
+  }
+
+  /* ---------- révélations au scroll ---------- */
+  var revs = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (reduce || !("IntersectionObserver" in window)) {
+    revs.forEach(function (el) {
+      el.classList.add("in");
+    });
+  } else {
+    var rio = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in");
+          rio.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revs.forEach(function (el, i) {
+      el.style.transitionDelay = (i % 4) * 90 + "ms";
+      rio.observe(el);
+    });
+  }
+
+  /* ---------- badge ouvert / fermé (horaires du cabinet) ---------- */
+  var badge = document.querySelector("[data-open-badge]");
+  if (badge) {
+    /* lun-ven 8:30-17:30, sam 9:00-12:00, dimanche fermé */
+    var HOURS = {
+      1: [8.5, 17.5],
+      2: [8.5, 17.5],
+      3: [8.5, 17.5],
+      4: [8.5, 17.5],
+      5: [8.5, 17.5],
+      6: [9, 12],
+    };
+    var now = new Date();
+    var span = HOURS[now.getDay()];
+    var h = now.getHours() + now.getMinutes() / 60;
+    var open = !!span && h >= span[0] && h < span[1];
+    badge.setAttribute("data-state", open ? "open" : "closed");
+    badge.textContent = badge.getAttribute(open ? "data-label-open" : "data-label-closed");
   }
 
   /* ---------- année ---------- */
