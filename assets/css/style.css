@@ -1965,3 +1965,59 @@ textarea:focus-visible {
     transform: none;
   }
 }
+
+/* ---------- carte spécialité pleine largeur (7e domaine) ---------- */
+.card.wide {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+  padding-block: 26px;
+}
+
+.card.wide h3 {
+  font-size: 1.2rem;
+}
+
+.card.wide p {
+  margin-top: 4px;
+}
+
+.card.wide > a {
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 1020px) {
+  .card.wide {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .card.wide .num {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .card.wide {
+    display: block;
+  }
+
+  .card.wide > a {
+    margin-top: 18px;
+    white-space: normal;
+  }
+}
+
+.card.wide .ic {
+  margin-top: 0;
+}
+
+.card.wide h3 {
+  margin-top: 0;
+}
+
+.card.wide p {
+  min-height: 0;
+}
