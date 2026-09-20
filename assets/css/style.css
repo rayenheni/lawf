@@ -418,6 +418,9 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* portrait serré : ancre le cadrage sur le visage plutôt que sur le centre,
+     sinon le cover rogne le haut de la tête (surtout en mobile) */
+  object-position: 50% 22%;
 }
 
 .hero-badge {
@@ -1410,8 +1413,10 @@ button {
     grid-template-columns: 1fr;
   }
 
+  /* plus haut qu'ailleurs : le portrait rogné en bandeau garderait
+     une part trop faible du sujet sur écran étroit */
   .hero-media {
-    min-height: 340px;
+    min-height: 420px;
   }
 
   .cards {
