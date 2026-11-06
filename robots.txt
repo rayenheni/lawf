@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://ibrahimmahjoub.netlify.app/sitemap.xml
+Disallow: /admin/
+Sitemap: https://cmcbavocat.tn/sitemap.xml
